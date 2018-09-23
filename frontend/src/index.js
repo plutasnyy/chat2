@@ -1,14 +1,19 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import {createStore} from 'redux';
-import 'semantic-ui-css/semantic.min.css';
+import {createStore} from "redux";
 import App from './App';
+import { render } from 'react-dom'
 import registerServiceWorker from './registerServiceWorker';
-import chatApp from './reducers/reducers';
 import './index.css'
-import {backHome, goRooms, dupa} from "./actions/actions";
+import 'semantic-ui-css/semantic.min.css';
+import chatApp from "./reducers/reducers";
+import {Provider} from "react-redux";
 
 const store = createStore(chatApp)
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+)
 registerServiceWorker();

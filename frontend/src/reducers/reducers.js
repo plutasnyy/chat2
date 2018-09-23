@@ -6,7 +6,7 @@ import {
 } from './../actions/actions'
 
 const initialState = {
-    name: "Unnamed",
+    name: '',
     position: Postions.HOME,
 }
 
