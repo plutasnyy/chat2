@@ -7,9 +7,12 @@ export const Postions = {
 }
 
 export function goRooms(name) {
+    console.log("goROms")
+    console.log(name)
     return {type: GO_ROOMS, name}
 }
 
 export function backHome() {
+    console.log("backgome")
     return {type: BACK_HOME}
 }
