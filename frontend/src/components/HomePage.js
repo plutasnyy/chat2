@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Form, Header, Dropdown, Menu} from 'semantic-ui-react'
+import {Button, Form, Header, Dropdown} from 'semantic-ui-react'
 import './../css/HomePage.css'
 
 var options = []
@@ -10,19 +10,37 @@ class HomePage extends React.Component {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.roomsDropdownOnChange = this.roomsDropdownOnChange.bind(this);
-        this.state = {currentRoom: undefined}
+        this.nickLabelOnChange = this.nickLabelOnChange.bind(this);
+        this.newRoomLabelOnChange = this.newRoomLabelOnChange.bind(this);
+        this.state = {
+            currentRoom: undefined,
+            nick: "",
+            newRoom: "",
+        }
     }
 
     roomsDropdownOnChange(e) {
-        e.persist();
         this.setState({currentRoom: e.target.textContent})
     }
 
-    handleSubmit(event, {value}) {
-        alert('An essay was submitted');
-        event.preventDefault();
-        console.log(event)
-        console.log(value)
+    nickLabelOnChange(e) {
+        this.setState({nick: e.target.value})
+    }
+
+    newRoomLabelOnChange(e) {
+        this.setState({newRoom: e.target.value})
+    }
+
+    handleSubmit(event) {
+        if (this.state.nick === "" || (this.state.currentRoom === undefined && this.state.newRoom === "")) {
+            alert("Please provide every neccesary data")
+        } else {
+            if (this.state.currentRoom) {
+                alert("Redirect")
+            } else {
+                alert("Post and after that redirect")
+            }
+        }
     }
 
     componentDidMount() {
@@ -48,7 +66,7 @@ class HomePage extends React.Component {
                     <div className={'NickNameForm'}>
                         <Form.Field>
                             <label> Register your name </label>
-                            <input placeholder={'Please provide your username'}/>
+                            <input placeholder={'Please provide your username'} onChange={this.nickLabelOnChange}/>
                         </Form.Field>
                         <span>
                             <strong>Select a room to go in:{' '} </strong>
@@ -56,7 +74,7 @@ class HomePage extends React.Component {
                         </span>
                         <Form.Field style={{'marginTop': '16px'}}>
                             <label> Or create new </label>
-                            <input placeholder={'Please provide room name'}/>
+                            <input placeholder={'Please provide room name'} onChange={this.newRoomLabelOnChange}/>
                         </Form.Field>
                         <Button type='submit'>Next</Button>
                     </div>
