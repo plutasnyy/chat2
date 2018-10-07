@@ -14,6 +14,7 @@ class HomePage extends React.Component {
         this.newRoomLabelOnChange = this.newRoomLabelOnChange.bind(this);
         this.state = {
             currentRoom: undefined,
+            currentRoomID: undefined,
             nick: "",
             newRoom: "",
         }
@@ -21,6 +22,12 @@ class HomePage extends React.Component {
 
     roomsDropdownOnChange(e) {
         this.setState({currentRoom: e.target.textContent})
+
+        options.forEach(option=>{
+            if(option.text === e.target.textContent){
+                this.setState({currentRoomID:option.value})
+            }
+        })
     }
 
     nickLabelOnChange(e) {
@@ -36,7 +43,7 @@ class HomePage extends React.Component {
             alert("Please provide every neccesary data")
         } else {
             if (this.state.currentRoom) {
-		        this.props.history.push('/room/'+this.state.nick+'/'+this.state.currentRoom);
+		        this.props.history.push('/room/'+this.state.nick+'/'+this.state.currentRoomID);
             } else {
                 alert("Post and after that redirect")
             }

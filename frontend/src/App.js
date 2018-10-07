@@ -8,7 +8,7 @@ export default class App extends Component {
             <Router>
               <div className="container">
                 <Route exact path="/" component={HomePage} />
-                <Route path="/room/:username/:room" component={Room} />
+                <Route path="/room/:username/:roomID" component={Room} />
               </div>
             </Router>
         );
