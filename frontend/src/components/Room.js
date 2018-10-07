@@ -1,6 +1,7 @@
 import React from 'react'
 import './../css/HomePage.css'
 import {Container} from "semantic-ui-react";
+import Websocket from '../Websocket';
 
 var roomData = null;
 
@@ -17,7 +18,50 @@ class Room extends React.Component {
             )
     }
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: ""
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+    }
+
+    handleData(data) {
+        let result = JSON.parse(data);
+        console.log(result);
+    }
+
+    onOpen() {
+        console.log("Open ws");
+    }
+
+    onClose() {
+        console.log("Close ws");
+    }
+
+    handleChange(event) {
+        this.setState({value: event.target.value});
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.sendMessage(this.state.value);
+    }
+
+    sendMessage(message) {
+        let x = JSON.stringify({
+            'message': message,
+            'roomID': this.props.match.params.roomID,
+            'username': this.props.match.params.username,
+        })
+        console.log(x);
+        this.refWebsocket.sendMessage(x);
+    }
+
     render() {
+        let websocketUrl = 'ws://localhost:8000/ws/chat/' + this.props.match.params.roomID + '/';
         return (
             <div className={'BackgroundImg'}>
                 <Container>
@@ -37,6 +81,21 @@ class Room extends React.Component {
                         Curabitur ullamcorper ultricies nisi.
                     </p>
                 </Container>
+                Hello <br/>
+                <div id="chat-log" cols="100" rows="20"></div>
+                <br/>
+
+                <form onSubmit={this.handleSubmit}>
+                    <label>
+                        Name:
+                        <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    </label>
+                    <input type="submit" value="Submit"/>
+                </form>
+                <Websocket url={websocketUrl} onMessage={this.handleData} onOpen={this.onOpen} onClose={this.onClose}
+                           ref={Websocket => {
+                               this.refWebsocket = Websocket;
+                           }}/>
             </div>
         )
     }
