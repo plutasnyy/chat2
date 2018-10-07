@@ -36,7 +36,7 @@ class HomePage extends React.Component {
             alert("Please provide every neccesary data")
         } else {
             if (this.state.currentRoom) {
-                alert("Redirect")
+		        this.props.history.push('/room/'+this.state.nick+'/'+this.state.currentRoom);
             } else {
                 alert("Post and after that redirect")
             }
