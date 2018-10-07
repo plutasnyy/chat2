@@ -67,7 +67,7 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div className={'HomePage'}>
+            <div className={'BackgroundImg'}>
                 <Form className={'NickNameFormContainer'} onSubmit={this.handleSubmit}>
                     <Header as='h1' textAlign={'center'}>Hi!</Header>
                     <div className={'NickNameForm'}>

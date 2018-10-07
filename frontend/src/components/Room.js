@@ -1,28 +1,43 @@
 import React from 'react'
+import './../css/HomePage.css'
+import {Container} from "semantic-ui-react";
 
-var roomData;
+var roomData = null;
 
 class Room extends React.Component {
     componentDidMount() {
-        fetch("http://localhost:8000/api/rooms/"+this.props.match.params.roomID, {})
+        fetch("http://localhost:8000/api/rooms/" + this.props.match.params.roomID, {})
             .then(res => res.json())
             .then(
                 (result) => {
-                    console.log(result);
-                    result.map(function (item) {
-                        roomData={
-                            text: item.text,
-                            value: item.id,
-                        }
-                    })
+                    var div = document.getElementById('roomHeader');
+                    roomData = result;
+                    div.innerHTML = roomData.text;
                 },
             )
-        console.log(roomData);
     }
 
     render() {
         return (
-            <div><p>Room:{this.props.match.params.roomID} Nickname:{this.props.match.params.username}</p></div>
+            <div className={'BackgroundImg'}>
+                <Container>
+                    <h3>Room:
+                        <div id='roomHeader'></div>
+                        Nickname:{this.props.match.params.username}</h3>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                        Aenean massa strong. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur
+                        ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla
+                        consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu.
+                        In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede
+                        link mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean
+                        vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac,
+                        enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla
+                        ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue.
+                        Curabitur ullamcorper ultricies nisi.
+                    </p>
+                </Container>
+            </div>
         )
     }
 }
