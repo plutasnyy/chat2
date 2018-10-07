@@ -39,30 +39,16 @@ INSTALLED_APPS = [
     'rest_framework',
     'chat_app',
     'channels',
+    'webpack_loader',
     'corsheaders',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = (
-    'localhost:3000',
-)
-CORS_ORIGIN_REGEX_WHITELIST = (
-    'localhost:3000',
-)
-
 ROOT_URLCONF = 'chat.urls'
 
 TEMPLATES = [
