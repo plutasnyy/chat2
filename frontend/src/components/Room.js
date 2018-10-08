@@ -5,10 +5,23 @@ import {Button, Container, Form} from "semantic-ui-react";
 import Websocket from '../Websocket';
 
 var roomData = null;
-var messages = {}
 
 class Room extends React.Component {
-    componentWillMount() {
+
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: "",
+            mes: []
+        };
+        this.handleData = this.handleData.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.sendMessage = this.sendMessage.bind(this);
+    }
+
+    componentDidMount() {
         fetch("http://localhost:8000/api/rooms/" + this.props.match.params.roomID, {})
             .then(res => res.json())
             .then(
@@ -22,27 +35,22 @@ class Room extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
-                    messages = result;
-                    console.log(messages)
+                    result.map(item => {
+                            console.log(item)
+                            item.key = item.id;
+                            this.setState({mes: [...this.state.mes, item]})
+                        }
+                    )
                 },
             )
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            value: ""
-        };
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.sendMessage = this.sendMessage.bind(this);
-    }
-
     handleData(data) {
-        let result = JSON.parse(data);
-        messages.push(result);
-        console.log(result);
-        console.log(messages);
+        let item = JSON.parse(data);
+        item.key = item.id;
+        console.log(item)
+        this.setState({mes: [...this.state.mes, item]})
+        console.log(this.state)
     }
 
     onOpen() {
@@ -68,13 +76,10 @@ class Room extends React.Component {
             'roomID': this.props.match.params.roomID,
             'username': this.props.match.params.username,
         })
-        console.log(x);
         this.refWebsocket.sendMessage(x);
     }
-    renderRecords() {
-        console.log(messages)
-        return messages.map(message => <div> message.content</div>);
-    }
+
+
     render() {
         let websocketUrl = 'ws://localhost:8000/ws/chat/' + this.props.match.params.roomID + '/';
         return (
@@ -83,7 +88,9 @@ class Room extends React.Component {
                     <h3> Hello {this.props.match.params.username} in <span id='roomHeader'></span></h3>
 
                     <div id="chat-log">
-                        {this.renderRecords()}
+                        {this.state.mes.map(function (item, i) {
+                            return <div> <strong>{item.author}</strong>: {item.content} </div>
+                        })}
                     </div>
 
                     <Form onSubmit={this.handleSubmit} style={{'bottom': '0px'}}>
