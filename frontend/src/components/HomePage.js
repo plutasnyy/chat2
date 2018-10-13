@@ -1,6 +1,7 @@
 import React from 'react'
 import {Button, Form, Header, Dropdown} from 'semantic-ui-react'
 import './../css/HomePage.css'
+import {create} from 'axios';
 
 var options = []
 
@@ -23,9 +24,9 @@ class HomePage extends React.Component {
     roomsDropdownOnChange(e) {
         this.setState({currentRoom: e.target.textContent})
 
-        options.forEach(option=>{
-            if(option.text === e.target.textContent){
-                this.setState({currentRoomID:option.value})
+        options.forEach(option => {
+            if (option.text === e.target.textContent) {
+                this.setState({currentRoomID: option.value})
             }
         })
     }
@@ -43,9 +44,15 @@ class HomePage extends React.Component {
             alert("Please provide every neccesary data")
         } else {
             if (this.state.currentRoom) {
-		        this.props.history.push('/room/'+this.state.nick+'/'+this.state.currentRoomID);
+                this.props.history.push('/room/' + this.state.nick + '/' + this.state.currentRoomID);
             } else {
-                alert("Post and after that redirect")
+                const api = create({baseURL: 'http://localhost:8000'})
+                api.post('/api/rooms/', {text: this.state.newRoom})
+                    .then(res => {
+                        console.log(res);
+                        console.log(res.data);
+                        this.props.history.push('/room/' + this.state.nick + '/' + res.data.id);
+                    })
             }
         }
     }
