@@ -87,7 +87,7 @@ class Room extends React.Component {
                 <div className={'RoomContainer'}>
                     <h3> Hello {this.props.match.params.username} in <span id='roomHeader'></span></h3>
 
-                    <div id="chat-log">
+                    <div id="chat-log" style={{'overflow': 'auto'}}>
                         {this.state.mes.map(function (item, i) {
                             return <div> <strong>{item.author}</strong>: {item.content} </div>
                         })}

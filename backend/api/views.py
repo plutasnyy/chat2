@@ -8,7 +8,7 @@ class LastMessagesList(generics.ListAPIView):
 
     def get_queryset(self):
         room_id = int(self.kwargs['room_id'])
-        return Message.objects.filter(room__pk=room_id).order_by('-date')[:10:-1]
+        return Message.objects.filter(room__pk=room_id).order_by('-date')[:200:-1]
 
 
 class RoomViewSet(viewsets.ModelViewSet):
