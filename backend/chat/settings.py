@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'rest_framework',
     'chat_app',
     'channels',
-    'webpack_loader',
     'corsheaders',
 ]
 
